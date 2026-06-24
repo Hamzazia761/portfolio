@@ -16,8 +16,9 @@
                 <ul>
                     <li><a href="#about">About</a></li>
                     <li><a href="#skills">Skills</a></li>
-                    <li><a href="#experience">Experience</a></li>
+                    <li><a href="#education">Education</a></li>
                     <li><a href="#projects">Projects</a></li>
+                    <li><a href="#experience">Experience</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
@@ -29,9 +30,78 @@
             <div class="hero-content">
                 <img src="assets/profile.jpg" alt="Hamza Zia" class="profile-img">
                 <div class="hero-text">
-                    <h2>Hello, I'm Hamza Zia</h2>
-                    <p>Data Scientist passionate about turning data into insights and building impactful solutions.</p>
-                    <a href="resume.pdf" download class="btn">Download Resume</a>
+                    <h2>Ello!</h2>
+                    <p>I am a Data Scientist and Machine Learning Engineer currently pursuing an MSc in Advanced Data Science at the University of Exeter, England. My research focuses on detecting litter in drone imagery of UK parks and beaches using computer vision techniques, generating interactive hotspot maps to help city councils prioritise clean-up operations efficiently.</p>
+                    <p style="margin-top:1rem;">With a BS in Computer Science from the Virtual University of Pakistan, I have built a strong foundation across the full data science pipeline — from data ingestion and EDA to building and deploying predictive models. I am proficient in Python, R, SQL, TensorFlow, PyTorch, and Scikit-learn, and have delivered projects achieving up to 97% accuracy in real-world classification tasks.</p>
+                    <p style="margin-top:1rem;">Beyond academics, I have applied my skills professionally — automating a billing system that cut a 2-day process down to 3 hours, and volunteering as a Python Workshop Leader for ExCode, a Google Student Developer Club-backed bootcamp at the University of Exeter.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="education">
+            <div class="container">
+                <h2>Education</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h3>MSc Advanced Data Science</h3>
+                        <strong>University of Exeter, England</strong> <span style="float:right">2025 – Present</span>
+                        <p style="margin-top:1rem; font-weight:bold; color:#64b5f6;">Workshop Leader — ExCode</p>
+                        <ul>
+                            <li>Assisted students in workshop sessions to solve Python programming exercises as part of ExCode, a free student-led 7-week Python Bootcamp.</li>
+                            <li>Bootcamp backed by Google Student Developer Club and the UoE Computer Science Society at the University of Exeter.</li>
+                        </ul>
+                        <p style="margin-top:1rem; font-weight:bold; color:#64b5f6;">Research Project: Detecting Litter in Drone Imagery Using Computer Vision Techniques</p>
+                        <ul>
+                            <li>Capturing aerial footage of UK parks and beaches using drone-mounted cameras.</li>
+                            <li>Applying computer vision techniques to detect litter in images and video frames.</li>
+                            <li>Generating interactive hotspot maps to help city councils identify high-litter zones and prioritise clean-up operations.</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>BS Computer Science</h3>
+                        <strong>Virtual University of Pakistan, Pakistan</strong> <span style="float:right">2019 – 2023</span>
+                        <p style="margin-top:1rem; font-weight:bold; color:#64b5f6;">Final Year Project: Deepfake Detection by Deep Learning Methodologies</p>
+                        <ul>
+                            <li>Developed a deep learning model to detect AI-generated deepfake content in images and videos.</li>
+                            <li>Achieved 85% recall in identifying face swaps and voice swaps produced by generative models.</li>
+                            <li>Employed convolutional and recurrent architectures to analyse both spatial and temporal features.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="container">
+                <h2>Projects</h2>
+            </div>
+            <div class="carousel-wrapper">
+                <div class="carousel-track" id="projectsCarousel">
+                    <div class="project-card">
+                        <h3>Deepfake Detection Using Deep Learning (FYP)</h3>
+                        <p>Model can predict a fake video generated using (A.I) deep learning with 85% Recall. Model has the ability to detect voice and face swap.</p>
+                        <a href="https://github.com/Hamzazia761/Deepfake-Detection" target="_blank" class="btn">View on GitHub</a>
+                    </div>
+                    <div class="project-card">
+                        <h3>AZB Colony Billing System</h3>
+                        <p>Web-based billing management system for AZB Colony residents. Features login-protected access with Admin and User roles, monthly billing tracking (consumption, rates, arrears), bill search, and payment recording with partial/full payment support. Built with Python/Flask, SQLite, and vanilla HTML/CSS/JS.</p>
+                        <a href="https://github.com/Hamzazia761/azb-billing" target="_blank" class="btn">View on GitHub</a>
+                    </div>
+                    <div class="project-card">
+                        <h3>Customer Segmentation Based On Annual Spending</h3>
+                        <p>Model can classify with precision of 95% that a customer belongs to a specific category, it is further used for recommending products, deals, promotions.</p>
+                        <a href="https://github.com/Hamzazia761/Customer-Segmentation-Based-On-Annual-Spending.git" target="_blank" class="btn">View on GitHub</a>
+                    </div>
+                    <div class="project-card">
+                        <h3>Employee Turnover Monitoring Model</h3>
+                        <p>Model can successfully predict with 97% accuracy based on several features such as promoted in last 5 years, pay, weekly hours etc. whether the employee will leave the company or not.</p>
+                        <a href="https://github.com/Hamzazia761/Employee-Turnover-Monitoring-Model.git" target="_blank" class="btn">View on GitHub</a>
+                    </div>
+                    <div class="project-card">
+                        <h3>Customised Train Ticket Price Predictor</h3>
+                        <p>Price of the ticket can be predicted with 94% precision, pricing is changed regularly based on demand and time. Data is scraped regularly and it can be predicted what the fare will be given destination, origin, class of train etc.</p>
+                        <a href="https://github.com/Hamzazia761/Customised-Train-Ticket-Price.git" target="_blank" class="btn">View on GitHub</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -50,6 +120,14 @@
                                   <li>Conducted data wrangling and exploratory data analysis (EDA) to identify patterns, trends, and data quality issues.</li>
                                   <li>Communicated analytical findings through clear data storytelling and visualization techniques.</li>
                                   <li>Explored datasets to support problem identification, hypothesis generation, and data-driven decision making.</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-item">
+                            <h3>Accounts and IT Officer (Hybrid)</h3>
+                            <strong>AZB Colony</strong> <span style="float:right">Oct 2023 – Aug 2025</span>
+                            <ul>
+                                <li>Designed and implemented an automated monthly billing system, reducing bill generation operations from 2 days to just 3 hours.</li>
+                                <li>Oversaw daily accounts of the colony, managing bookkeeping, filing systems, and billing operations.</li>
                             </ul>
                         </div>
                         <div class="timeline-item">
@@ -86,6 +164,7 @@
                         <ul>
                             <li>Python</li>
                             <li>SQL</li>
+                            <li>R</li>
                             <li>HTML</li>
                             <li>CSS</li>
                         </ul>
@@ -106,7 +185,7 @@
                             <li>TensorFlow</li>
                             <li>Scikit-learn</li>
                             <li>Snap ML</li>
-                            <li>Machine Learning</li>
+                            <li>PyTorch</li>
                         </ul>
                     </div>
                     <div class="skill-category">
@@ -122,14 +201,8 @@
             <section id="certifications">
                     <div class="container">
                         <h2>Certifications & Trainings</h2>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <h3>Kaggle</h3>
-                        <ul>
-                            <li>Introduction to Deep Learning</li>
-                        </ul>
-                    </div>
-                    <div class="project-card">
+                <div class="cert-box">
+                    <div class="cert-group">
                         <h3>Stanford University</h3>
                         <ul>
                             <li>Generative AI for Everyone</li>
@@ -139,46 +212,24 @@
                             <li>Unsupervised Learning, Recommenders, Reinforcement Learning</li>
                         </ul>
                     </div>
-                    <div class="project-card">
+                    <div class="cert-group">
                         <h3>Harvard University</h3>
                         <ul>
                             <li>CS50's Introduction to Programming with Python</li>
                             <li>CS50's Introduction to Computer Science</li>
                         </ul>
                     </div>
-                    <div class="project-card">
+                    <div class="cert-group">
                         <h3>Dice Analytics</h3>
                         <ul>
                             <li>Data Science and Machine Learning</li>
                         </ul>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="projects">
-            <div class="container">
-                <h2>Projects</h2>
-                <div class="projects-grid">
-                    <div class="project-card">
-                            <h3>Deepfake Detection Using Deep Learning (FYP)</h3>
-                            <p>Model can predict a fake video generated using (A.I) deep learning with 85% Recall. Model has the ability to detect voice and face swap.</p>
-                            <a href="https://github.com/Hamzazia761/Deepfake-Detection" target="_blank" class="btn">View on GitHub</a>
-                    </div>
-                    <div class="project-card">
-                            <h3>Customer Segmentation Based On Annual Spending</h3>
-                            <p>Model can classify with precision of 95% that a customer belongs to a specific category, it is further used for recommending products, deals, promotions.</p>
-                            <a href="https://github.com/Hamzazia761/Customer-Segmentation-Based-On-Annual-Spending.git" target="_blank" class="btn">View on GitHub</a>
-                    </div>
-                    <div class="project-card">
-                            <h3>Employee Turnover Monitoring Model</h3>
-                            <p>Model can successfully predict with 97% accuracy based on several features such as promoted in last 5 years, pay, weekly hours etc. whether the employee will leave the company or not.</p>
-                            <a href="https://github.com/Hamzazia761/Employee-Turnover-Monitoring-Model.git" target="_blank" class="btn">View on GitHub</a>
-                    </div>
-                    <div class="project-card">
-                            <h3>Customised Train Ticket Price Predictor</h3>
-                            <p>Price of the ticket can be predicted with 94% precision, pricing is changed regularly based on demand and time. Data is scraped regularly and it can be predicted what the fare will be given destination, origin, class of train etc.</p>
-                            <a href="https://github.com/Hamzazia761/Customised-Train-Ticket-Price.git" target="_blank" class="btn">View on GitHub</a>
+                    <div class="cert-group">
+                        <h3>Kaggle</h3>
+                        <ul>
+                            <li>Introduction to Deep Learning</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -186,10 +237,20 @@
 
         <section id="contact">
                 <div class="container">
-                    <div class="contact-box">
-                        <h2>Contact</h2>
-                        <p>Email: hamzazia751@gmail.com</p>
-                        <p>LinkedIn: https://www.linkedin.com/in/hamzazia761/</p>
+                    <h2>Contact</h2>
+                    <div class="contact-links">
+                        <a href="mailto:hamzazia752@gmail.com" class="contact-item">
+                            <span class="contact-label">Email</span>
+                            <span>hamzazia752@gmail.com</span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/hamzazia761/" target="_blank" class="contact-item">
+                            <span class="contact-label">LinkedIn</span>
+                            <span>linkedin.com/in/hamzazia761</span>
+                        </a>
+                        <a href="https://github.com/Hamzazia761" target="_blank" class="contact-item">
+                            <span class="contact-label">GitHub</span>
+                            <span>github.com/Hamzazia761</span>
+                        </a>
                     </div>
                 </div>
         </section>

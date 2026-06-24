@@ -80,6 +80,84 @@ if (canvas) {
 }
 
 
+// Projects carousel
+(function () {
+    const wrapper = document.querySelector('.carousel-wrapper');
+    const track = document.getElementById('projectsCarousel');
+    if (!wrapper || !track) return;
+
+    const originals = Array.from(track.children);
+    const N = originals.length;
+
+    originals.forEach(card => track.appendChild(card.cloneNode(true)));
+
+    let index = 0;
+    let jumping = false;
+
+    function slotWidth() {
+        const card = track.children[0];
+        const gap = parseFloat(getComputedStyle(track).gap) || 32;
+        return card.offsetWidth + gap;
+    }
+
+    function place(animate) {
+        const cardW = track.children[0].offsetWidth;
+        const offset = (wrapper.offsetWidth - cardW) / 2 - index * slotWidth();
+        track.style.transition = animate ? 'transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none';
+        track.style.transform = `translateX(${offset}px)`;
+        Array.from(track.children).forEach((c, i) => c.classList.toggle('active', i === index));
+    }
+
+    function goTo(i, animate) {
+        index = ((i % N) + N) % N;
+        place(animate);
+    }
+
+    function advance() {
+        if (jumping) return;
+        const next = index + 1;
+        index = next;
+        place(true);
+        if (next >= N) {
+            jumping = true;
+            setTimeout(() => {
+                index = 0;
+                place(false);
+                track.offsetHeight;
+                jumping = false;
+            }, 620);
+        }
+    }
+
+    place(false);
+    const autoTimer = setInterval(advance, 5000);
+
+    // Drag / swipe support
+    let dragStartX = 0;
+    let dragging = false;
+
+    function onDragStart(x) {
+        dragging = true;
+        dragStartX = x;
+    }
+
+    function onDragEnd(x) {
+        if (!dragging) return;
+        dragging = false;
+        const diff = dragStartX - x;
+        if (Math.abs(diff) > 40) {
+            diff > 0 ? advance() : goTo(index - 1, true);
+        }
+    }
+
+    wrapper.addEventListener('mousedown', e => onDragStart(e.clientX));
+    window.addEventListener('mouseup', e => onDragEnd(e.clientX));
+    wrapper.addEventListener('touchstart', e => onDragStart(e.touches[0].clientX), { passive: true });
+    wrapper.addEventListener('touchend', e => onDragEnd(e.changedTouches[0].clientX), { passive: true });
+
+    window.addEventListener('resize', () => place(false));
+})();
+
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
