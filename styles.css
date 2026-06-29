@@ -413,16 +413,54 @@ footer {
     color: #888;
 }
 
+/* Hamburger button — hidden on desktop */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+.nav-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    transition: background 0.3s;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
+    /* Nav — hamburger */
+    .nav-toggle { display: flex; }
+
     .nav-container {
-        flex-direction: column;
-        gap: 1rem;
+        flex-wrap: wrap;
+        padding: 1rem;
     }
 
     nav ul {
-        gap: 1rem;
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        position: absolute;
+        top: 56px;
+        left: 0;
+        width: 100%;
+        background: rgba(10, 31, 28, 0.97);
+        padding: 0.5rem 0;
+        z-index: 999;
     }
+    nav ul.open { display: flex; }
+    nav ul li a {
+        display: block;
+        padding: 0.75rem 2rem;
+    }
+
+    main { margin-top: 60px; }
 
     .hero-content {
         flex-direction: column;
@@ -452,5 +490,21 @@ footer {
 
     #certifications .projects-grid {
         grid-template-columns: 1fr;
+    }
+
+    /* Skills — wrap into 2 columns */
+    .skills-grid {
+        flex-wrap: wrap;
+    }
+    .skill-category {
+        flex: 1 1 calc(50% - 0.75rem);
+        min-width: 140px;
+    }
+
+    /* Contact — no fixed min-width */
+    .contact-item {
+        min-width: unset;
+        width: 100%;
+        padding: 0.9rem 1.25rem;
     }
 }

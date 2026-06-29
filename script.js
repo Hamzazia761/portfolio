@@ -2,13 +2,14 @@
 const canvas = document.getElementById("canvas");
 if (canvas) {
   const ctx = canvas.getContext("2d");
-  
+
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  
+
   let points = [];
-  const POINT_COUNT = 120;
+  const POINT_COUNT = window.innerWidth < 768 ? 60 : 120;
   const MAX_DIST = 120;
+  let animFrameId;
   
   class Point {
     constructor() {
@@ -68,11 +69,16 @@ if (canvas) {
   
     drawLines();
   
-    requestAnimationFrame(animate);
+    animFrameId = requestAnimationFrame(animate);
   }
-  
+
   animate();
-  
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) cancelAnimationFrame(animFrameId);
+    else animate();
+  });
+
   window.addEventListener("resize", () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -157,6 +163,16 @@ if (canvas) {
 
     window.addEventListener('resize', () => place(false));
 })();
+
+// Hamburger nav toggle
+const navToggle = document.getElementById('navToggle');
+const navMenu   = document.getElementById('navMenu');
+if (navToggle && navMenu) {
+    navToggle.addEventListener('click', () => navMenu.classList.toggle('open'));
+    navMenu.querySelectorAll('a').forEach(a =>
+        a.addEventListener('click', () => navMenu.classList.remove('open'))
+    );
+}
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
