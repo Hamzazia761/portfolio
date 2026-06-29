@@ -18,13 +18,15 @@ jobs:
       - name: Set up SSH
         env:
           DEPLOY_KEY: ${{ secrets.KAPTURE_DEPLOYER_SSH_KEY }}
-          KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
         run: |
-          mkdir -p ~/.ssh
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
           printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          # Pinned host public keys for 72.62.4.70 (public, not secret — no ssh-keyscan at runtime).
+          printf '%s\n' '72.62.4.70 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIFpVuu4E+SO2yPSOikJ7U7KwGfdtdf7LIdGbbELQhGl' > ~/.ssh/known_hosts
+          printf '%s\n' '72.62.4.70 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLavqQVGjZJZ4mzoTW0hR8aLkL8TSDcrdxsCLKN6lsvUasQdjVZuJcVJFiDxneU/+GS51c/orWxQ/QUEnk7G7vI=' >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
+          echo "key bytes: $(wc -c < ~/.ssh/id_ed25519), known_hosts lines: $(wc -l < ~/.ssh/known_hosts)"
 
       # The deploy key is locked on the host to a forced rrsync command
       # (rrsync -munge -wo /home/deployer/hamza-portfolio/site), so this push
@@ -33,7 +35,7 @@ jobs:
       - name: Deploy site (rsync into rrsync jail)
         run: |
           rsync -az --delete --chmod=D755,F644 \
-            -e "ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes" \
+            -e "ssh -i $HOME/.ssh/id_ed25519 -o IdentitiesOnly=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts" \
             --exclude '.git' \
             --exclude '.github' \
             --exclude 'deploy' \
