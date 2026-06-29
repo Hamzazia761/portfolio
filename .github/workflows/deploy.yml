@@ -20,13 +20,17 @@ jobs:
           DEPLOY_KEY: ${{ secrets.KAPTURE_DEPLOYER_SSH_KEY }}
         run: |
           mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          # tr -d '\r' auto-fixes CRLF line endings (the most common paste corruption).
-          printf '%s\n' "$DEPLOY_KEY" | tr -d '\r' > ~/.ssh/id_ed25519
+          # Normalize the pasted private key, tolerating common paste mistakes: strip CRLF,
+          # drop any existing armor lines and blanks to get the raw body, then re-wrap with
+          # standard BEGIN/END markers. Handles a dropped header/footer, CRLF, or a one-line body.
+          printf '%s\n' "$DEPLOY_KEY" | tr -d '\r' \
+            | sed -e '/-----BEGIN OPENSSH PRIVATE KEY-----/d' \
+                  -e '/-----END OPENSSH PRIVATE KEY-----/d' \
+                  -e '/^[[:space:]]*$/d' > /tmp/keybody
+          { echo '-----BEGIN OPENSSH PRIVATE KEY-----'; cat /tmp/keybody; echo '-----END OPENSSH PRIVATE KEY-----'; } > ~/.ssh/id_ed25519
+          rm -f /tmp/keybody
           chmod 600 ~/.ssh/id_ed25519
-          # Non-sensitive sanity probe (BEGIN header / public key prefix are not secret):
-          echo "key first 32 chars: $(head -c 32 ~/.ssh/id_ed25519)"
-          echo "key line count: $(wc -l < ~/.ssh/id_ed25519)"
-          if ssh-keygen -y -f ~/.ssh/id_ed25519 >/dev/null 2>&1; then echo "key PARSE: ok"; else echo "key PARSE: FAILED (malformed or not a private key)"; fi
+          if ssh-keygen -y -f ~/.ssh/id_ed25519 >/dev/null 2>&1; then echo "key PARSE: ok"; else echo "key PARSE: FAILED (secret body itself is incomplete/wrong, not just missing armor)"; fi
           # Pinned host public keys for 72.62.4.70 (public, not secret — no ssh-keyscan at runtime).
           printf '%s\n' '72.62.4.70 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIFpVuu4E+SO2yPSOikJ7U7KwGfdtdf7LIdGbbELQhGl' > ~/.ssh/known_hosts
           printf '%s\n' '72.62.4.70 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLavqQVGjZJZ4mzoTW0hR8aLkL8TSDcrdxsCLKN6lsvUasQdjVZuJcVJFiDxneU/+GS51c/orWxQ/QUEnk7G7vI=' >> ~/.ssh/known_hosts
