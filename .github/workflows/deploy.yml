@@ -1,0 +1,44 @@
+name: Deploy to Kapture
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-kapture
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up SSH
+        env:
+          DEPLOY_KEY: ${{ secrets.KAPTURE_DEPLOYER_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      # The deploy key is locked on the host to a forced rrsync command
+      # (rrsync -munge -wo /home/deployer/hamza-portfolio/site), so this push
+      # can only write under site/ — no shell, no docker, no other service.
+      # The dest "deployer@HOST:./" lands in the rrsync jail root = that site dir.
+      - name: Deploy site (rsync into rrsync jail)
+        run: |
+          rsync -az --delete --chmod=D755,F644 \
+            -e "ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes" \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude 'deploy' \
+            --exclude 'README.md' \
+            --exclude 'assets/background.gif' \
+            --exclude 'assets/background_gif.gif' \
+            --exclude 'assets/background1.jpg' \
+            ./ deployer@72.62.4.70:./

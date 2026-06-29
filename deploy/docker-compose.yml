@@ -1,0 +1,29 @@
+# Serves the static site from a read-only bind mount of ./site.
+# Applied on the Kapture host once by the operator (rana); CI only rsyncs into ./site.
+# Host path: /home/deployer/hamza-portfolio/  (site/ is the deploy target)
+services:
+  web:
+    image: nginx:alpine
+    container_name: hamza-portfolio
+    restart: always
+    mem_limit: 256m
+    cpus: 0.25
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    ports:
+      # Loopback only — reached via the nginx reverse proxy once DNS is live.
+      - "127.0.0.1:8743:80"
+    volumes:
+      - ./site:/usr/share/nginx/html:ro
+    healthcheck:
+      # nginx:alpine has no curl, and localhost resolves to IPv6 while nginx binds IPv4.
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
