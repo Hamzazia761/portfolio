@@ -43,13 +43,23 @@ jobs:
       # The dest "deployer@HOST:./" lands in the rrsync jail root = that site dir.
       - name: Deploy site (rsync into rrsync jail)
         run: |
-          rsync -az --delete --chmod=D755,F644 \
-            -e "ssh -i $HOME/.ssh/id_ed25519 -o IdentitiesOnly=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts" \
-            --exclude '.git' \
-            --exclude '.github' \
-            --exclude 'deploy' \
-            --exclude 'README.md' \
-            --exclude 'assets/background.gif' \
-            --exclude 'assets/background_gif.gif' \
-            --exclude 'assets/background1.jpg' \
-            ./ deployer@72.62.4.70:./
+          for attempt in 1 2 3; do
+            if rsync -az --delete --chmod=D755,F644 \
+              -e "ssh -i $HOME/.ssh/id_ed25519 -o IdentitiesOnly=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts -o ConnectTimeout=15" \
+              --exclude '.git' \
+              --exclude '.github' \
+              --exclude 'deploy' \
+              --exclude 'README.md' \
+              --exclude 'assets/background.gif' \
+              --exclude 'assets/background_gif.gif' \
+              --exclude 'assets/background1.jpg' \
+              ./ deployer@72.62.4.70:./; then
+              break
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              echo "Deployment failed after 3 attempts."
+              exit 1
+            fi
+            echo "Deploy attempt $attempt failed, retrying in 20s..."
+            sleep 20
+          done
